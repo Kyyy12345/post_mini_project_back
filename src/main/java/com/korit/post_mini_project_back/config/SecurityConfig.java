@@ -1,7 +1,10 @@
-package com.korit.springboot.config;
+package com.korit.post_mini_project_back.config;
 
-import com.korit.springboot.filter.JwtAuthenticationFilter;
-import com.mysql.cj.Session;
+
+import com.korit.post_mini_project_back.filter.JwtAuthenticationFilter;
+import com.korit.post_mini_project_back.security.JwtAuthenticationEntryPoint;
+import com.korit.post_mini_project_back.security.OAuth2SuccessHandler;
+import com.korit.post_mini_project_back.service.OAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +26,9 @@ import java.util.List;
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final OAuth2UserService oAuth2UserService;
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     //CSR 방식이라서 하는 세팅
     @Bean // Security에서 꼭 세팅 필요
@@ -43,6 +49,11 @@ public class SecurityConfig {
         // csrf 비활성화 (내가 만들어준 페이지에서만 요청이 와야 요청준다) 요까지가 csr때문에 하는거다!!
         http.csrf(csrf -> csrf.disable());
 
+        http.oauth2Login(oauth2 ->
+                oauth2.userInfoEndpoint(userInfo -> userInfo.userService(oAuth2UserService))
+                        .successHandler(oAuth2SuccessHandler)
+        );
+
         http.authorizeHttpRequests(auth -> {
             auth.requestMatchers("/api/auth/**").permitAll();
             auth.requestMatchers("/v3/api-docs/**").permitAll();
@@ -56,6 +67,7 @@ public class SecurityConfig {
         //로그인 - 인증 필요없음
         //로그인 완료 시 토큰 지급
 
+        http.exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthenticationEntryPoint));
 
         return http.build(); // 예외처리 필요
     }
@@ -86,6 +98,3 @@ public class SecurityConfig {
 }
 
 
-//레전드.....이거 진짜 어떻게 찾았지???? 이걸 찾아???
-//내가 너 완벽 파악했다 생각했는데 간파당한건가....
-//일단 약속은 약속이니까! 찬스 드림니다~~

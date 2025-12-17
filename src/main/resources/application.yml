@@ -1,1 +1,28 @@
-spring.application.name=post_mini_project_back
+spring:
+  profiles:
+    active: local
+    group:
+      local: secret, common
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: common
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3309/sb_study_kyy
+    username: root
+    password: 1q2w3e4r
+
+springdoc:
+  swagger-ui:
+    path: doc
+
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.korit.post_mini_project_back.entity
