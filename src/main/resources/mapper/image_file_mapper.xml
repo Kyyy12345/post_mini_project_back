@@ -5,7 +5,7 @@
 
 <mapper namespace="com.korit.post_mini_project_back.mapper.ImageFileMapper">
     <insert id="insertToMany" useGeneratedKeys="true" keyProperty="imageFileId" >
-        insert into img_file_tb
+        insert into image_file_tb
         values
             <foreach item="file" collection="files"  separator=",">
                 (default, #{file.category}, #{file.originalFilename}, #{file.filePath}, #{file.extension}, #{file.size}, now(), #{file.referenceId})

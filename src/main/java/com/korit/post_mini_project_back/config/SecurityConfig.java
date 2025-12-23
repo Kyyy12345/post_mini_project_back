@@ -56,10 +56,14 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(auth -> {
             auth.requestMatchers("/api/auth/**").permitAll();
+            auth.requestMatchers("/api/auth/**").permitAll();
             auth.requestMatchers("/v3/api-docs/**").permitAll();
             auth.requestMatchers("/swagger-ui/**").permitAll();
             auth.requestMatchers("/swagger-ui.html").permitAll();
             auth.requestMatchers("/doc").permitAll();
+            auth.requestMatchers("/oauth2/**").permitAll();
+            auth.requestMatchers("/login/**").permitAll();
+            auth.requestMatchers("/image/**").permitAll();
             auth.anyRequest().authenticated();
 
         });

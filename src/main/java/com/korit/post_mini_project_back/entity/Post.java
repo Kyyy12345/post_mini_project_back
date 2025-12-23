@@ -21,4 +21,5 @@ public class Post {
 
     private User user;
     private List<ImageFile> imageFiles;
+    private Follow follow;
 }

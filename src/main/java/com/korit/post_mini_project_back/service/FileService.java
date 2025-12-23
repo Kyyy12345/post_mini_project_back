@@ -33,8 +33,7 @@ public class FileService {
             try {
                 // 경로가 존재하지 않으면 자동으로 전체 폴더 경로 생성
                 Files.createDirectories(uploadDirPath);
-            } catch (IOException e) {
-            }
+            } catch (IOException e) {}
 
             Path filePath = uploadDirPath.resolve(newFilename);
             System.out.println(newFilename);
@@ -45,7 +44,7 @@ public class FileService {
             imageFiles.add(ImageFile.builder()
                         .category(category)
                         .originalFilename(originalFilename)
-                        .filePath(filePath.toString())
+                        .filePath(filePath.toString().substring(filePath.toString().indexOf("upload") + "upload".length()).replaceAll("\\\\", "/"))
                         .extension(extension)
                         .size(file.getSize())
                     .build());
