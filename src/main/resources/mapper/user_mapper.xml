@@ -42,8 +42,8 @@
             user_tb
         where
             nickname = #{nickname}
-
     </select>
+
     <select id="findByOauth2Id" resultType="User">
         select
             user_id,
@@ -60,8 +60,8 @@
             user_tb
         where
             oauth2_id = #{oauth2Id}
-
     </select>
+
     <select id="createNickname" resultType="java.lang.String">
 
         select
@@ -75,6 +75,7 @@
                 order by
                     rand()
                 limit 0, 1),
+
                 (select
                     word as noun_word
                 from
@@ -83,7 +84,7 @@
                     word_type = 'noun'
                 order by
                     rand()
-                limit 0, 1) )as nickname;
+                limit 0, 1) ) as nickname;
     </select>
 
 

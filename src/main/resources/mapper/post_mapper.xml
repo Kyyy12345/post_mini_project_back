@@ -14,6 +14,7 @@
         <association property="follow" resultMap="followResultMap" />
         <collection property="imageFiles" resultMap="imageFileResultMap" />
     </resultMap>
+
     <resultMap id="userResultMap" type="User">
         <id property="userId" column="user_id" />
         <result property="nickname" column="nickname" />
@@ -51,13 +52,16 @@
         ft.follow_id,
         ft.follower_id,
         ft.following_id
+
         from
         post_tb pt
         left outer join user_tb ut on ut.user_id = pt.user_id
         left outer join follow_tb ft on ft.following_id = pt.user_id and not ft.following_id = #{userId}
+
         where
         ft.follower_id = #{userId}
         or pt.user_id = #{userId}
+
         order by
         pt.created_at desc
         limit #{startIndex}, #{size}),
@@ -81,9 +85,11 @@
         post_tb pt
         left outer join user_tb ut on ut.user_id = pt.user_id
         left outer join follow_tb ft on ft.following_id = pt.user_id and ft.follower_id = #{userId}
+
         where
         ft.follower_id is null
         and pt.visibility = 'Public'
+
         order by
         rand(),
         created_at desc
